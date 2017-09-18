@@ -2,6 +2,7 @@
 var express = require('express'),
     app     = express(),
     morgan  = require('morgan');
+var request = require('request');
     
 Object.assign=require('object-assign')
 
@@ -55,6 +56,22 @@ var initDb = function(callback) {
     console.log('Connected to MongoDB at: %s', mongoURL);
   });
 };
+
+
+//重启DaoCloud
+app.get('/http/daocloud/restart/:appid/:token',function(req, res){
+    var appid = req.params.appid;
+    var token = req.params.token;
+    request({
+        method: 'POST',
+        url:"https://openapi.daocloud.io/v1/apps/"+ appid +"/actions/restart",
+        headers: {"Authorization": token}}, 
+        function (error, response, body) {
+            if(error)
+                res.send(error);
+            else
+                res.send(body);
+    });
 
 app.get('/', function (req, res) {
   // try to initialize the db on every request if it's not already
