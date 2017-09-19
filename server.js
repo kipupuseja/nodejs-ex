@@ -1,6 +1,6 @@
 //  OpenShift sample Node application
 var express = require('express'),
-    app     = request(),
+    app     = express(),
     morgan  = require('morgan');
 var request = require('request');
     
