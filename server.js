@@ -57,7 +57,36 @@ var initDb = function(callback) {
   });
 };
 
-
+//启动DaoCloud
+app.get('/http/daocloud/start/:appid/:token',function(req, res){
+    var appid = req.params.appid;
+    var token = req.params.token;
+    request({
+        method: 'POST',
+        url:"https://openapi.daocloud.io/v1/apps/"+ appid +"/actions/start",
+        headers: {"Authorization": token}}, 
+        function (error, response, body) {
+            if(error)
+                res.send(error);
+            else
+                res.send(body);
+    });
+});
+//停止DaoCloud
+app.get('/http/daocloud/stop/:appid/:token',function(req, res){
+    var appid = req.params.appid;
+    var token = req.params.token;
+    request({
+        method: 'POST',
+        url:"https://openapi.daocloud.io/v1/apps/"+ appid +"/actions/stop",
+        headers: {"Authorization": token}}, 
+        function (error, response, body) {
+            if(error)
+                res.send(error);
+            else
+                res.send(body);
+    });
+});
 //重启DaoCloud
 app.get('/http/daocloud/restart/:appid/:token',function(req, res){
     var appid = req.params.appid;
@@ -72,6 +101,22 @@ app.get('/http/daocloud/restart/:appid/:token',function(req, res){
             else
                 res.send(body);
     });
+});
+//重新发布DaoCloud
+app.get('/http/daocloud/redeploy/:appid/:token',function(req, res){
+    var appid = req.params.appid;
+    var token = req.params.token;
+    request({
+        method: 'POST',
+        url:"https://openapi.daocloud.io/v1/apps/"+ appid +"/actions/redeploy",
+        headers: {"Authorization": token}}, 
+        function (error, response, body) {
+            if(error)
+                res.send(error);
+            else
+                res.send(body);
+    });
+});
 
 app.get('/', function (req, res) {
   // try to initialize the db on every request if it's not already
